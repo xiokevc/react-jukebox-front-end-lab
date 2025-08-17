@@ -1,4 +1,3 @@
-// src/components/Home.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTracks, deleteTrack } from '../services/trackService';
