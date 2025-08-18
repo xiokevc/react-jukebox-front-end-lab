@@ -6,6 +6,12 @@ export const getTracks = async () => {
   return res.json();
 };
 
+export const getTrackById = async (id) => {
+  const res = await fetch(`${BASE_URL}/${id}`);
+  if (!res.ok) throw new Error('Failed to fetch track');
+  return res.json();
+};
+
 export const createTrack = async (trackData) => {
   const res = await fetch(BASE_URL, {
     method: 'POST',
@@ -31,3 +37,5 @@ export const deleteTrack = async (id) => {
   if (!res.ok) throw new Error('Failed to delete track');
   return res.json();
 };
+
+console.log('API Base URL:', BASE_URL);
