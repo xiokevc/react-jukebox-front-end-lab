@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createTrack, getTracks, updateTrack } from '../services/trackService';
+import {
+  createTrack,
+  getTrackById,
+  updateTrack,
+} from '../services/trackService';
 import '../styles/TrackForm.css';
 
 const TrackForm = () => {
   const [formData, setFormData] = useState({ title: '', artist: '', album: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const { trackId } = useParams();
   const navigate = useNavigate();
 
@@ -15,6 +22,7 @@ const TrackForm = () => {
   }, [trackId]);
 
   const fetchTrack = async () => {
+    setLoading(true);
     try {
       const track = await getTrackById(trackId);
       if (track) {
@@ -25,7 +33,9 @@ const TrackForm = () => {
         });
       }
     } catch (err) {
-      console.error('Failed to fetch track:', err);
+      setError('Failed to load track.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,6 +46,9 @@ const TrackForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
     try {
       if (trackId) {
         await updateTrack(trackId, formData);
@@ -44,13 +57,18 @@ const TrackForm = () => {
       }
       navigate('/');
     } catch (err) {
-      console.error('Failed to save track:', err);
+      setError('Failed to save track.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <form className="track-form" onSubmit={handleSubmit}>
       <h2>{trackId ? 'Edit Track' : 'Add New Track'}</h2>
+
+      {error && <p className="form-error">{error}</p>}
+
       <input
         name="title"
         placeholder="Title"
@@ -71,9 +89,13 @@ const TrackForm = () => {
         value={formData.album}
         onChange={handleChange}
       />
-      <button type="submit">Submit</button>
+
+      <button type="submit" disabled={loading}>
+        {loading ? 'Saving...' : 'Submit'}
+      </button>
     </form>
   );
 };
 
 export default TrackForm;
+

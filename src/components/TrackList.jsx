@@ -4,6 +4,10 @@ import '../styles/TrackList.css';
 const TrackList = ({ tracks, onDelete, onPlay }) => {
   const navigate = useNavigate();
 
+  if (tracks.length === 0) {
+    return <p>No tracks found.</p>;
+  }
+
   return (
     <div>
       <h2>Track List</h2>
@@ -24,4 +28,5 @@ const TrackList = ({ tracks, onDelete, onPlay }) => {
 };
 
 export default TrackList;
+
 
