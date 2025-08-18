@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createTrack, getTracks, updateTrack } from '../services/trackService';
+import '../styles/TrackForm.css';
 
 const TrackForm = () => {
   const [formData, setFormData] = useState({ title: '', artist: '', album: '' });

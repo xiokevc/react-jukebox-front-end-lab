@@ -1,0 +1,16 @@
+.track-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.track-card h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.track-buttons {
+  margin-top: 10px;
+}

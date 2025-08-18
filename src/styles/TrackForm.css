@@ -1,0 +1,11 @@
+.track-form {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.track-form h2 {
+  margin-top: 0;
+}
