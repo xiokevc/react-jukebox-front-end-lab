@@ -10,19 +10,22 @@ const TrackForm = () => {
 
   useEffect(() => {
     if (trackId) {
-      loadTrack();
+      fetchTrack();
     }
   }, [trackId]);
 
-  const loadTrack = async () => {
-    const allTracks = await getTracks();
-    const track = allTracks.find((t) => t._id === trackId);
-    if (track) {
-      setFormData({
-        title: track.title,
-        artist: track.artist,
-        album: track.album,
-      });
+  const fetchTrack = async () => {
+    try {
+      const track = await getTrackById(trackId);
+      if (track) {
+        setFormData({
+          title: track.title,
+          artist: track.artist,
+          album: track.album,
+        });
+      }
+    } catch (err) {
+      console.error('Failed to fetch track:', err);
     }
   };
 
@@ -33,16 +36,20 @@ const TrackForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (trackId) {
-      await updateTrack(trackId, formData);
-    } else {
-      await createTrack(formData);
+    try {
+      if (trackId) {
+        await updateTrack(trackId, formData);
+      } else {
+        await createTrack(formData);
+      }
+      navigate('/');
+    } catch (err) {
+      console.error('Failed to save track:', err);
     }
-    navigate('/');
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="track-form" onSubmit={handleSubmit}>
       <h2>{trackId ? 'Edit Track' : 'Add New Track'}</h2>
       <input
         name="title"
